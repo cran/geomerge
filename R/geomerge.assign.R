@@ -1,7 +1,10 @@
 #### function implementing different assignment rules using sql
 # assumes that target has ID field (which it has)
 # assumes that target has area (which is has)
-geomerge.assign<- function(polygon_input,target,assignment,population.data,optional.inputs){
+geomerge.assign<- function(polygon_input,target,assignment,population.data,optional.inputs,silent){
+  if (silent){
+    cat <-function(...){}
+  }
   # much larger (N of rows) SPDF with each polygon (where overlap exists) 'cut' but holding target FID
   att <- intersect(polygon_input,target[,1])
   # GENERATE population zonal stats if population weighing is used
@@ -40,17 +43,17 @@ geomerge.assign<- function(polygon_input,target,assignment,population.data,optio
     }
   }
   if (assignment == "weighted(area)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) sum(att$area[att$FID==x]*att$value[att$FID==x])/sum(att$area[att$FID==x])))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) sum(att$area[att$FID==x]*att$value[att$FID==x])/sum(att$area[att$FID==x]))))
   }else if (assignment == "weighted(pop)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) sum(att$pop[att$FID==x]*att$value[att$FID==x])/sum(att$pop[att$FID==x])))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) sum(att$pop[att$FID==x]*att$value[att$FID==x])/sum(att$pop[att$FID==x]))))
   }else if (assignment == "max(area)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.max(att$area[att$FID==x])]))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.max(att$area[att$FID==x])])))
   }else if (assignment == "min(area)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.min(att$area[att$FID==x])]))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.min(att$area[att$FID==x])])))
   }else if (assignment == "max(pop)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.max(att$pop[att$FID==x])]))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.max(att$pop[att$FID==x])])))
   }else if (assignment == "min(pop)"){
-    out <- unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.min(att$pop[att$FID==x])]))
+    out <- suppressWarnings(unlist(lapply(0:(length(target)-1), function(x) subset(att$value,att$FID==x)[which.min(att$pop[att$FID==x])])))
   }
   out<-data.frame(out)
   row.names(out)<-NULL
