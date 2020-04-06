@@ -43,7 +43,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     cat <-function(...){}
   }
   
-  cat(' geomerge: Geospatial data integration.\n Karsten Donnay and Andrew Linke, 2017\n\n ATTENTION: Depending on the resolution and number of datasets, the merger may take some time!\n\n\n ')
+  cat(' geomerge: Geospatial data integration.\n Karsten Donnay and Andrew Linke, 2020\n\n ATTENTION: Depending on the resolution and number of datasets, the merger may take some time!\n\n\n ')
   call <- match.call()
   if (!silent){
     print(call)
@@ -206,7 +206,12 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
   # EXECUTE otherwise
   if (!terminate){
     # CALCULATE first and second order neighborhood weights
-    wghts <- geomerge.neighbor(target)
+    if (spat.lag){
+      wghts <- geomerge.neighbor(target)
+    }else{
+      # default to empty weight list
+      wghts <- list(wts1=c(), wts2=c())
+    }
     
     # CALCULATE local areas for normalization and area weighted calculations
     outdata <- data.frame(FID=sapply(target@polygons, FUN=function(x) {slot(x, 'ID')}))
