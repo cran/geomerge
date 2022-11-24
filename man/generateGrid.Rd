@@ -13,12 +13,17 @@ generateGrid(extent, size, local.CRS, makeWGS84 = TRUE, silent = FALSE)
   \item{extent}{
   \code{SpatialPolygonsDataFrame} that defines the (minimum) extent of the grid to be generated.
 }
- \item{size}{  size of the grid cells in m.}
-  \item{local.CRS}{  definition of the local (projected) CRS the grid is spanned in. Has to be class \kbd{"CRS"}.
+ \item{size}{
+  size of the grid cells in m.
 }
-  \item{makeWGS84}{  Boolean switch indicating whether or not the grid is returned in WGS84. Default = \kbd{TRUE}.
+  \item{local.CRS}{
+  definition of the local (projected) CRS the grid is spanned in. Has to be class \kbd{"CRS"}.
 }
-  \item{silent}{  Boolean switch to suppress any (non-critical) warnings and messages. Default = \kbd{FALSE}.
+  \item{makeWGS84}{
+  Boolean switch indicating whether or not the grid is returned in WGS84. Default = \kbd{TRUE}.
+}
+  \item{silent}{
+  Boolean switch to suppress any (non-critical) warnings and messages. Default = \kbd{FALSE}.
 }
 }
 \value{
@@ -35,6 +40,7 @@ Andrew M. Linke, Karsten Donnay. (2017). "Scale Variability Misclassification: T
 }
 \examples{
 require(sp)
+require(rgdal)
 data(geomerge)
 
 # Generate grid with 10 km cell size in local CRS for Nigeria

@@ -4,6 +4,10 @@
 //
 //
 
+== 0.3.3 (24 Nov 2022) ==
+   * removes dependence on package inlmisc
+   * generateGrid() no longer uses Grid2Polygons()
+   * updated class check syntax in line with new CRAN conventions
 
 == 0.3.2 (06 Apr 2020) ==
    * no spatial weights calculation if spat.lag=FALSE 

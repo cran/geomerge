@@ -14,19 +14,19 @@ print.geomerge <- function(x, ...){
   non.num <- c()
   for (inpt in 1:datsets){
     # DISTINGUISH by class of input data
-    if (class(x$inputData[[inpt]])=='SpatialPointsDataFrame'){
+    if (is(x$inputData[[inpt]],'SpatialPointsDataFrame')){
       if (is.numeric(x$data@data[,paste0(inputs[inpt],'.',x$parameters$point.agg)])){
         num <- c(num,inputs[inpt])
       }else{
         non.num <- c(non.num,inputs[inpt])
       }
-    }else if (class(x$inputData[[inpt]])=='SpatialPolygonsDataFrame'){
+    }else if (is(x$inputData[[inpt]],'SpatialPolygonsDataFrame')){
       if (is.numeric(x$data@data[,inputs[inpt]])){
         num <- c(num,inputs[inpt])
       }else{
         non.num <- c(non.num,inputs[inpt])
       }
-    }else if (class(x$inputData[[inpt]])=='RasterLayer'){
+    }else if (is(x$inputData[[inpt]],'RasterLayer')){
       num <- c(num,inputs[inpt])
     }
   }

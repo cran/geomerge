@@ -15,19 +15,19 @@ summary.geomerge = function(object, ...){
   non.num <- c()
   for (inpt in 1:datsets){
     # DISTINGUISH by class of input data
-    if (class(object$inputData[[inpt]])=='SpatialPointsDataFrame'){
+    if (is(object$inputData[[inpt]],'SpatialPointsDataFrame')){
       if (is.numeric(object$data@data[,paste0(inputs[inpt],'.',object$parameters$point.agg)])){
         num <- c(num,inputs[inpt])
       }else{
         non.num <- c(non.num,inputs[inpt])
       }
-    }else if (class(object$inputData[[inpt]])=='SpatialPolygonsDataFrame'){
+    }else if (is(object$inputData[[inpt]],'SpatialPolygonsDataFrame')){
       if (is.numeric(object$data@data[,inputs[inpt]])){
         num <- c(num,inputs[inpt])
       }else{
         non.num <- c(non.num,inputs[inpt])
       }
-    }else if (class(object$inputData[[inpt]])=='RasterLayer'){
+    }else if (is(object$inputData[[inpt]],'RasterLayer')){
       num <- c(num,inputs[inpt])
     }
   }

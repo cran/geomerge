@@ -61,7 +61,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     standard.CRS <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
     if (standard.CRS@projargs != proj4string(target)){
       cat('\n NOTE: target not in global datum WGS84. Changing projection automatically but this may take a while... ')
-      target <- spTransform(target,standard.CRS)
+      target <- suppressWarnings(spTransform(target,standard.CRS))
       cat(' Done.\n')
     }
   }
@@ -71,7 +71,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
   for (iter in 1:length(inputs)){
     agg.check <- point.agg
     num_points <- sum(sapply(1:length(inputs),function(x) class(inputs[[x]])=="SpatialPointsDataFrame"))
-    if (class(inputs[[iter]])=="SpatialPointsDataFrame" & length(point.agg)>1 & !agg.checked){
+    if (is(inputs[[iter]],"SpatialPointsDataFrame") & length(point.agg)>1 & !agg.checked){
       if (length(point.agg)!=num_points){
         missing_arguments <- append(missing_arguments,paste0('\n point.agg must be specified globally or as a vector of characters whose length matches the number of "SpatialPointsDataFrame" input arguments'))
         terminate <-TRUE
@@ -85,20 +85,20 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     if (agg.checked){
       agg.check <- point.agg[1]
     }
-    if (!(class(inputs[[iter]])=='SpatialPolygonsDataFrame' | class(inputs[[iter]])=='SpatialPointsDataFrame' | class(inputs[[iter]])=='RasterLayer')){
-      if (class(inputs[[iter]])=='RasterStack'){
+    if (!(is(inputs[[iter]],'SpatialPolygonsDataFrame') | is(inputs[[iter]],'SpatialPointsDataFrame') | is(inputs[[iter]],'RasterLayer'))){
+      if (is(inputs[[iter]],'RasterStack')){
         missing_arguments <- append(missing_arguments,paste0('\n input ',data.names[iter],' is RasterStack, please input layers as separate RasterLayer'))
       }else{
         missing_arguments <- append(missing_arguments,paste0('\n input ',data.names[iter],' is not SpatialPolgyonsDataFrame, SpatialPointsDataFrame, or RasterLayer'))
       }
       terminate <-TRUE
     }
-    if (class(inputs[[iter]])=='SpatialPolygonsDataFrame'){
+    if (is(inputs[[iter]],'SpatialPolygonsDataFrame')){
       if(ncol(inputs[[iter]])!=1){
         missing_arguments <- append(missing_arguments,paste0('\n SpatialPolgyonsDataFrame ',data.names[iter],' must contain exactly one column with the variable of interest'))
         terminate <-TRUE
       }
-      if (assignment%in%c('max(pop)','min(pop)','weighted(pop)') & class(population.data)!='RasterLayer'){
+      if (assignment%in%c('max(pop)','min(pop)','weighted(pop)') & !is(population.data,'RasterLayer')){
         missing_arguments <- append(missing_arguments,paste0('\n SpatialPolgyonsDataFrame ',data.names[iter],' is used with population-based assignment but population.data RasterLayer is missing or mis-specified'))
         terminate <-TRUE
       }
@@ -107,7 +107,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
         terminate <-TRUE
       }
     }
-    if (class(inputs[[iter]])=='SpatialPointsDataFrame'){
+    if (is(inputs[[iter]],'SpatialPointsDataFrame')){
       if (length(names(inputs[[iter]])[names(inputs[[iter]])!='timestamp'])!=1){
         missing_arguments <- append(missing_arguments,paste0('\n SpatialPointsDataFrame ',data.names[iter],' must contain exactly one column with the variable of interest (and a "timestamp" column, if applicable)'))
         terminate <-TRUE
@@ -124,19 +124,19 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     # CHECK that CRS of data is the same as target, if not transform data
     if (standard.CRS@projargs != proj4string(inputs[[iter]])){
       cat(paste0('\n NOTE: ',data.names[iter],' not in global datum WGS84. Changing projection but this may take a while... '))
-      if (class(inputs[[iter]])=='RasterLayer'){
+      if (is(inputs[[iter]],'RasterLayer')){
         inputs[[iter]] <- projectRaster(inputs[[iter]], crs=standard.CRS)
       }else{
-        inputs[[iter]] <- spTransform(inputs[[iter]],standard.CRS)
+        inputs[[iter]] <- suppressWarnings(spTransform(inputs[[iter]],standard.CRS))
       }
       cat('Done.\n')
     }
-    if ((class(inputs[[iter]])=='SpatialPolygonsDataFrame' | class(inputs[[iter]])=='RasterLayer') & extent(inputs[[iter]]) < extent(target)){
+    if ((is(inputs[[iter]],'SpatialPolygonsDataFrame') | is(inputs[[iter]],'RasterLayer')) & extent(inputs[[iter]]) < extent(target)){
       cat(paste0('\n NOTE: The extent of input ',data.names[iter],' is smaller than that of target. This might lead to NA values.\n'))
     }
   }
   # CHECK target format
-  if (!class(target)=='SpatialPolygonsDataFrame'){
+  if (!is(target,'SpatialPolygonsDataFrame')){
     missing_arguments <- append(missing_arguments,'\n target is not SpatialPolygonsDataFrame')
     terminate <-TRUE
   }
@@ -160,7 +160,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     }else{
       timestamp <- FALSE
       for (iter in 1:length(inputs)){
-        if (class(inputs[[iter]])=='SpatialPointsDataFrame' & any(names(inputs[[iter]]@data)%in%c('timestamp'))){
+        if (is(inputs[[iter]],'SpatialPointsDataFrame') & any(names(inputs[[iter]]@data)%in%c('timestamp'))){
           timestamp <- TRUE
           datecheck <- try(strptime(inputs[[iter]]@data$timestamp, format= "%Y-%m-%d"))
           if (any(class(datecheck) %in% c("try-error")) || any(is.na(datecheck))){
@@ -186,7 +186,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     terminate <-TRUE
   }
   # CHECK that population.data is projected to correct CRS
-  if (class(population.data)=='RasterLayer'){
+  if (is(population.data,'RasterLayer')){
     if (standard.CRS@projargs != proj4string(population.data)){
       cat('\n NOTE: population.data not in global datum WGS84. Changing projection automatically but this may take a while...')
       population.data <- projectRaster(population.data, crs=standard.CRS)
@@ -226,7 +226,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
     for (iter in 1:length(inputs)){
       data <- inputs[[iter]]
       data.name = data.names[iter]
-      if(class(data)=="SpatialPointsDataFrame" & length(point.agg)>1){
+      if(is(data,"SpatialPointsDataFrame") & length(point.agg)>1){
         paste.agg <- point.agg[points.inputs]
         points.inputs <- points.inputs + 1
       }else{

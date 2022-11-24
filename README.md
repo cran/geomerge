@@ -41,15 +41,15 @@ data(geomerge)
 The example datasets cover all three main spatial data types discussed
 above:
 
-  - `ACLED` (`Point` data): Conflict events for Nigeria in 2011 as recorded by the Armed Conflict Location & Event Data project, available from <http://www.acleddata.com>. This dataset contains geocoded, timestamped information on individual conflict events.
+  - `ACLED` (`Point` data): Conflict events for Nigeria in 2011 as recorded by the Armed Conflict Location & Event Data project, available from <https://acleddata.com/>. This dataset contains geocoded, timestamped information on individual conflict events.
 
-  - `AidData` (`Point` data, including locations geocoded to administrative divisions, but assigned coordinates of centroids): Activities of development aid projects in Nigeria with start dates in 2011 as recorded by AidData, available at <http://aiddata.org>. This dataset contains geocoded, timestamped information on individual aid projects.
+  - `AidData` (`Point` data, including locations geocoded to administrative divisions, but assigned coordinates of centroids): Activities of development aid projects in Nigeria with start dates in 2011 as recorded by AidData, available at <https://www.aiddata.org/>. This dataset contains geocoded, timestamped information on individual aid projects.
 
 Note: Both `Point` datasets are time-stamped, which means that they can be used for dynamic (i.e., spanning a spatial panel) as well as static (i.e., cross-sectional) integration.
 
   - `geoEPR` (`Polygons` data): All politically relevant ethnic groups for Nigeria in 2011, as recorded in the EPR-Core 2014 dataset, available at <https://icr.ethz.ch/data/epr/geoepr/>. This dataset assigns every politically relevant ethnic group one of six settlement patterns and provides polygons describing their location.
 
-  - `gpw` (`Raster` data): Population at a gridded resolution of about 4km for Nigeria in 2010, as compiled by CIESIN, available at <http://sedac.ciesin.columbia.edu/data/collection/gpw-v4>. This dataset provides population estimates at several grid resolutions.
+  - `gpw` (`Raster` data): Population at a gridded resolution of about 4km for Nigeria in 2010, as compiled by CIESIN, available at < https://sedac.ciesin.columbia.edu/data/collection/gpw-v4>. This dataset provides population estimates at several grid resolutions.
 
   - `states` (`Polygons` data): Second-order administrative divisions (ADM2s) for Nigeria, known as Local Government Areas (equivalent of US states). The dataset is available at <http://www.arcgis.com/home/item.html?id=0e58995046b74254911c1dc0eb756fa4>. This dataset is used in the illustration for the target
     SpatialPolygonsDataFrame to which spatial data are merged. The polygons in `states` have been simplified to reduce the size of the `SpatialPolygonsDataFrame` and enable fast execution of the examples provided.

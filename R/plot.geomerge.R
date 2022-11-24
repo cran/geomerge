@@ -65,7 +65,7 @@ plot.geomerge <- function(x,...){
   for (inpt in 1:length(full.inputs)){
     if (full.inputs[inpt] %in% names(x$inputData)){
       # DISTINGUISH by class of input data
-      if (class(x$inputData[[inpt]])=='SpatialPointsDataFrame'){
+      if (is(x$inputData[[inpt]],'SpatialPointsDataFrame')){
         if (is.numeric(x$data@data[,paste0(full.inputs[inpt],'.',point.agg[points.inputs])])){
           inputs <- c(inputs,full.inputs[inpt])
           # GENERATE full set of variables to plot
@@ -81,7 +81,7 @@ plot.geomerge <- function(x,...){
           cat(paste0('NOTE: Selected input ',full.inputs[inpt],' is not a numeric variable. Ignoring ',full.inputs[inpt],' for plotting results.\n'))
         }
         points.inputs <- points.inputs + 1
-      }else if (class(x$inputData[[inpt]])=='SpatialPolygonsDataFrame'){
+      }else if (is(x$inputData[[inpt]],'SpatialPolygonsDataFrame')){
         if (is.numeric(x$data@data[,full.inputs[inpt]])){
           inputs <- c(inputs,full.inputs[inpt])
           # GENERATE full set of variables to plot
@@ -92,7 +92,7 @@ plot.geomerge <- function(x,...){
         }else{
           cat(paste0('NOTE: Selected input ',full.inputs[inpt],' is not a numeric variable. Ignoring ',full.inputs[inpt],' for plotting results.\n'))
         }
-      }else if (class(x$inputData[[inpt]])=='RasterLayer'){
+      }else if (is(x$inputData[[inpt]],'RasterLayer')){
         inputs <- c(inputs,full.inputs[inpt])
         # GENERATE full set of variables to plot
         var.names <- c(var.names,full.inputs[inpt])

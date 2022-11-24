@@ -9,7 +9,7 @@ geomerge.merge <- function(data,data.name,target,standard.CRS,outdata,wghts,time
   
   # DISTINCTION by type of data
   # 1) Polygon data
-  if (class(data)=='SpatialPolygonsDataFrame'){
+  if (is(data,'SpatialPolygonsDataFrame')){
     cat(paste0('\n Merging polygon data...'))
     # CALL geomerge.assign here (distinguishes by assignment)
     out.stats <- geomerge.assign(data,target,assignment,population.data,optional.inputs,silent)
@@ -34,7 +34,7 @@ geomerge.merge <- function(data,data.name,target,standard.CRS,outdata,wghts,time
   }
   
   # 2) Point data
-  if (class(data)=='SpatialPointsDataFrame'){
+  if (is(data,'SpatialPointsDataFrame')){
     # STATIC point data aggregation
     if (any(is.na(time)) | !any(names(data)=='timestamp')){
       cat(paste0('\n Aggregating point data...'))
@@ -317,7 +317,7 @@ geomerge.merge <- function(data,data.name,target,standard.CRS,outdata,wghts,time
   }
   
   # 3) Raster data
-  if (class(data)=='RasterLayer'){
+  if (is(data,'RasterLayer')){
     # REDUCE size of raster to target if larger
     if (extent(data) > 1.2*extent(target)){
       cat(paste0('\n Cropping RasterLayer...'))
