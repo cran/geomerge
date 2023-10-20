@@ -1,4 +1,4 @@
-#### function implementing different assignment rules using sql
+#### Function implementing different assignment rules using sql
 # assumes that target has ID field (which it has)
 # assumes that target has area (which is has)
 geomerge.assign<- function(polygon_input,target,assignment,population.data,optional.inputs,silent){
@@ -6,18 +6,18 @@ geomerge.assign<- function(polygon_input,target,assignment,population.data,optio
     cat <-function(...){}
   }
   # much larger (N of rows) SPDF with each polygon (where overlap exists) 'cut' but holding target FID
-  att <- raster::intersect(polygon_input,target[,1])
+  att <- terra::intersect(polygon_input,target[,1])
   # GENERATE population zonal stats if population weighing is used
   if (assignment%in%c('max(pop)','min(pop)','weighted(pop)')){
     cat(paste0('\n Generating zonal statistics for population based assignment...'))
-    if (extent(population.data) > 1.2*extent(target)){
-      population.data <- crop(population.data, extent(target))
-      population.data <- mask(population.data, target)
+    if (ext(population.data) > 1.2*ext(target)){
+      population.data <- terra::crop(population.data, ext(target))
+      population.data <- terra::mask(population.data, target)
     }
     if (length(optional.inputs>0)){
-      att$pop<-extract(population.data,att, fun = mean, optional.inputs)
+      att$pop<-terra::extract(population.data, att, fun = mean, optional.inputs)
     }else{
-      att$pop<-extract(population.data,att, fun = mean, na.rm = TRUE)
+      att$pop<-terra::extract(population.data, att, fun = mean, na.rm = TRUE)
     }
     cat(' Done.')
     # fixed column label for polygon value

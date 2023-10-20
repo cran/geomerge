@@ -30,7 +30,9 @@ geomerge.merge(data,data.name,target,standard.CRS,outdata,wghts,
  \item{wghts}{
   spatial weights calculated by \code{link{geomerge.neighbor}}. 
 }
-\item{time}{  specification of temporal window for temporal binning of point data by \code{c(start_date, end_date, interval_length)}. Default = \kbd{NA}. See Details in \code{\link{geomerge}}.}
+\item{time}{
+  specification of temporal window for temporal binning of point data by \code{c(start_date, end_date, interval_length)}. Default = \kbd{NA}. See Details in \code{\link{geomerge}}.
+}
     \item{time.lag}{
   Boolean indicating whether or not first and second order temporal lag values of all variables are returned. Default = \kbd{TRUE}.
 }
@@ -38,12 +40,14 @@ geomerge.merge(data,data.name,target,standard.CRS,outdata,wghts,
   Boolean indicating whether or not first and second order spatial lag values of all variables are returned. Default = \kbd{TRUE}.
 }
   \item{zonal.fun}{
-  object of class \kbd{function} applied to values of \code{RasterLayer} when generating zonal statistics for each target polygon. Default = \kbd{sum}. See Details in \code{\link{geomerge}}.
+  object of class \kbd{function} applied to values of \code{SpatRaster} when generating zonal statistics for each target polygon. Default = \kbd{sum}. See Details in \code{\link{geomerge}}.
 }
   \item{assignment}{
   identification of either population- or area-weighting assignment rules when handling \code{SpatialPolygonsDataFrame} joins to \code{target}. Default = \kbd{"area.assign"}. See Details in \code{\link{geomerge}}.
 }
-\item{population.data}{  specifies data used for weighting if a population-based \code{assignment} rule is selected. See Details in \code{\link{geomerge}}.}
+\item{population.data}{
+  specifies data used for weighting if a population-based \code{assignment} rule is selected. See Details in \code{\link{geomerge}}.
+}
   \item{point.agg}{
   specification of aggregation format for data of type \code{SpatialPointsDataFrame}. Default = \kbd{"cnt"}. See Details in \code{\link{geomerge}}.
 }
@@ -54,7 +58,7 @@ geomerge.merge(data,data.name,target,standard.CRS,outdata,wghts,
   Boolean switch to suppress any (non-critical) warnings and messages. Default = \kbd{FALSE}.
 }
  \item{optional.inputs}{
-  Any optional inputs compatible with the \code{extract} function in \pkg{raster}.
+  Any optional inputs compatible with the \code{extract} function in \pkg{terra}.
 }
 }
  

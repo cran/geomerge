@@ -13,12 +13,17 @@ geomerge.assign(polygon_input,target,assignment,population.data,optional.inputs,
   \item{polygon_input}{
   input \code{SpatialPolygonsDataFrame} parsed from \code{geomerge} main function.
 }
- \item{target}{  \code{SpatialPolygonsDataFrame} representing desired units of analysis. See Details of \code{\link{geomerge}}.}
-  \item{assignment}{  identification of either population- or area-weighting assignment rules when handling \code{SpatialPolygonsDataFrame} joins to \code{target}. Default = \kbd{"max(area)"}. See Details in \code{\link{geomerge}}.
+ \item{target}{
+  \code{SpatialPolygonsDataFrame} representing desired units of analysis. See Details of \code{\link{geomerge}}.
 }
- \item{population.data}{  specifies data used for weighting if a population-based \code{assignment} rule is selected. See Details in \code{\link{geomerge}}.}
+  \item{assignment}{
+  identification of either population- or area-weighting assignment rules when handling \code{SpatialPolygonsDataFrame} joins to \code{target}. Default = \kbd{"max(area)"}. See Details in \code{\link{geomerge}}.
+}
+ \item{population.data}{
+  specifies data used for weighting if a population-based \code{assignment} rule is selected. See Details in \code{\link{geomerge}}.
+}
  \item{optional.inputs}{
-  Any optional inputs compatible with the \code{extract} function in \pkg{raster}.
+  Any optional inputs compatible with the \code{extract} function in \pkg{terra}.
 }
  \item{silent}{
   Boolean switch to suppress any (non-critical) warnings and messages. Default = \kbd{FALSE}.

@@ -4,6 +4,11 @@
 //
 //
 
+== 0.3.4 (19 Okt 2023) ==
+   * removes dependence on package rgdal
+   * now uses equivalent functions in package terra
+   * various small updates and bug fixes
+
 == 0.3.3 (24 Nov 2022) ==
    * removes dependence on package inlmisc
    * generateGrid() no longer uses Grid2Polygons()

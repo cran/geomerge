@@ -7,7 +7,7 @@ Generates a grid in a given local CRS that is, by default, returned as SpatialPo
 Implementation of a simple grid generation function producing a \code{SpatialPolygonsDataFrame} to be used as \code{target} in \code{geomerge}.
 }
 \usage{
-generateGrid(extent, size, local.CRS, makeWGS84 = TRUE, silent = FALSE)
+generateGrid(extent, size, local.crs, makeWGS84 = TRUE, silent = FALSE)
 }
 \arguments{
   \item{extent}{
@@ -16,8 +16,8 @@ generateGrid(extent, size, local.CRS, makeWGS84 = TRUE, silent = FALSE)
  \item{size}{
   size of the grid cells in m.
 }
-  \item{local.CRS}{
-  definition of the local (projected) CRS the grid is spanned in. Has to be class \kbd{"CRS"}.
+  \item{local.crs}{
+  definition of the local (projected) CRS the grid is spanned in. Has to be class \kbd{"CRS"} (from \pkg{sp}).
 }
   \item{makeWGS84}{
   Boolean switch indicating whether or not the grid is returned in WGS84. Default = \kbd{TRUE}.
@@ -40,10 +40,8 @@ Andrew M. Linke, Karsten Donnay. (2017). "Scale Variability Misclassification: T
 }
 \examples{
 require(sp)
-require(rgdal)
 data(geomerge)
 
 # Generate grid with 10 km cell size in local CRS for Nigeria
-states.grid <- generateGrid(states,10000,local.CRS=CRS("+init=epsg:26391"),
-                              silent=TRUE)
+states.grid <- generateGrid(states,10000,local.crs=CRS("epsg:26391"),silent=TRUE)
 }

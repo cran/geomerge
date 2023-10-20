@@ -1,4 +1,4 @@
-# MERGE function
+# MERGE function of package geomerge
 # - pairwise merger of dataset to target
 # - pass on weights matrix (first and second order weights, list of neighbors)
 # - pass on all options from mergeit
@@ -319,19 +319,19 @@ geomerge.merge <- function(data,data.name,target,standard.CRS,outdata,wghts,time
   # 3) Raster data
   if (is(data,'RasterLayer')){
     # REDUCE size of raster to target if larger
-    if (extent(data) > 1.2*extent(target)){
+    if (ext(data) > 1.2*ext(target)){
       cat(paste0('\n Cropping RasterLayer...'))
-      data <- crop(data, extent(target))
-      data <- mask(data, target)
+      data <- terra::crop(data, ext(target))
+      data <- terra::mask(data, target)
       cat(' Done.')
     }
     
     # EXTRACT data
     cat(paste0('\n Generating zonal statistics...'))
     if (length(optional.inputs>0)){
-      zonal.stats <- extract(data,target, fun = zonal.fun, optional.inputs)
+      zonal.stats <- terra::extract(data,target, fun = zonal.fun, optional.inputs)
     }else{
-      zonal.stats <- extract(data,target, fun = zonal.fun)
+      zonal.stats <- terra::extract(data,target, fun = zonal.fun)
     }
     # span outstats here
     out.stats <- data.frame(list(Zonal=rep(zonal.stats,nrow(outdata)/nrow(zonal.stats))))

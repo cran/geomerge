@@ -110,7 +110,7 @@ plot.geomerge <- function(x,...){
     cat('\n No plot generated because no numeric variable available for plotting!')
   }else{
     # SPECIFY target frame to plot
-    target <- fortify(x$data, region = "FID")
+    target <- st_as_sf(x$data)
     
     # EXTRACT data frame
     DF <- data.frame(x$data)
@@ -126,8 +126,7 @@ plot.geomerge <- function(x,...){
       min <- min(DF[,var.names])
       no_axes <- theme(axis.text = element_blank(),axis.line = element_blank(),axis.ticks = element_blank(),panel.border = element_blank(),panel.grid = element_blank(),axis.title = element_blank())
       p <- ggplot()
-      p <- p + geom_polygon(data=target, aes(x=long, y=lat, group=group), color = "white", fill="grey60")
-      p <- p + geom_map(inherit.aes = FALSE, data = DF,aes_string(map_id = "FID", fill = DF[,var.names]), colour = "white", map = target) + expand_limits(x = target$long, y = target$lat) + scale_fill_gradient2(low = "white", mid = "chartreuse3", midpoint = mean , high = muted("chartreuse4"), limits = c(1, max))
+      p <- p + geom_sf(inherit.aes = FALSE, data = target, mapping = aes(fill = DF[,var.names]), colour = "white") + expand_limits(x = target$long, y = target$lat) + scale_fill_gradient2(low = "white", mid = "chartreuse3", midpoint = mean , high = muted("chartreuse4"), limits = c(1, max))
       p <- p + ggtitle(var.names)
       p <- p + theme(legend.title=element_blank())
       p <- p + no_axes

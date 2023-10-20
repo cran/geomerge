@@ -68,7 +68,7 @@ When a \code{SpatialPointsDataFrame} is merged to \code{target}, one of two oper
 
 Values for inputs of type \code{SpatialPointsDataFrame} are either calculated statically across the entire frame if \code{time = NA} or dynamically within a given time period that can be specified using \code{time = c(start_date, end_date, interval_length)}. All three inputs must be Strings where \code{interval_length} is defined in multiples of \code{t_unit}. The default value is \code{t_unit = "days"}, the package also accepts inputs of \kbd{"secs"}, \kbd{"mins"}, \kbd{"hours"}, \kbd{"months"} or \kbd{"years"}.
 
-Zonal statistics are applied to objects of class \code{RasterLayer} that are joined to \code{target}. The specific operations are defined in the function call using the argument \code{zonal.fun} and each is added into the result. Any zonal statistics compatible with the \code{extract} function in \pkg{raster} is accepted. Note that \code{geomerge} does not accept raster stacks. If you have raster stacks they must be separated and the layers integrated separately into the function. 
+Zonal statistics are applied to objects of class \code{RasterLayer} that are joined to \code{target}. The specific operations are defined in the function call using the argument \code{zonal.fun} and each is added into the result. Any zonal statistics compatible with the \code{extract} function in \pkg{terra} is accepted. Note that \code{geomerge} does not accept raster stacks. If you have raster stacks they must be separated and the layers integrated separately into the function. 
 
 If \code{spat.lag = TRUE} spatial lags of all \kbd{numeric} variables from a \code{SpatialPolygonsDataFrame} or \code{RasterLayer} joined to \code{target} polygons are returned using first and also second order neighboring weights matrices. The package assigns \code{target} polygons the mean value of units within each neighborhood. When dynamic point aggregation is run and \code{time.lag = TRUE}, \code{geomerge} returns the values of every target polygon, as well as its first and second order neighboring unit averages, separately, at time t-1 and t-2 defined by \code{interval} in the argument \code{time}.
 }
@@ -96,12 +96,12 @@ Andrew M. Linke, Karsten Donnay. (2017). "Scale Variability Misclassification: T
 \code{\link{geomerge-package}}, \code{\link{print.geomerge}}, \code{\link{plot.geomerge}}, \code{\link{summary.geomerge}}, \code{\link{generateGrid}}
 }
 \examples{
-require(rgdal)
 data(geomerge)
 
 # 1) Simple static integration of polygon data
 output <- geomerge(geoEPR,target=states,silent=TRUE)
 summary (output)
+
 \donttest{
 # 2) Static integration for point, polygon, raster data
 output <- geomerge(ACLED$EVENT_TYPE,AidData$project_id,geoEPR,

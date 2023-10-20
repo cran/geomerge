@@ -1,19 +1,13 @@
-generateGrid<-function(extent, size, local.CRS, makeWGS84 = TRUE, silent=FALSE){
+generateGrid<-function(extent, size, local.crs, makeWGS84 = TRUE, silent=FALSE){
   if (silent){
     cat <-function(...){}
   }
-  missing_arguments <- c()
-  terminate <- FALSE
-  if (!is(local.CRS,'CRS')){
-    missing_arguments <- append(missing_arguments,paste0('\n local.CRS must be class "CRS"'))
-    terminate <-TRUE
-  }
-  if (!is.projected(extent) | local.CRS@projargs != proj4string(extent)){
-    cat(paste0('\n NOTE: extent not provided in a projected CRS or the one matching local.CRS. Changing projection but this may take a while...'))
+  if (!is.projected(extent) | local.crs@projargs != proj4string(extent)){
+    cat(paste0('\n NOTE: extent not provided in a projected CRS or the one matching local.crs. Changing projection but this may take a while...'))
     if (is(extent,'RasterLayer')){
-      extent <- projectRaster(extent, crs=local.CRS)
+      extent <- projectRaster(extent, crs=local.crs)
     }else{
-      suppressWarnings(extent <- spTransform(extent,local.CRS))
+      suppressWarnings(extent <- spTransform(extent, local.crs))
     }
     cat('Done.\n')
   }
@@ -28,8 +22,8 @@ generateGrid<-function(extent, size, local.CRS, makeWGS84 = TRUE, silent=FALSE){
   sp_poly$z<-NULL
   if (makeWGS84){
     cat(paste0('\n Changing projection to WGS84...'))
-    standard.CRS <- CRS("EPSG:4326")
-    suppressWarnings(sp_poly <- spTransform(sp_poly,standard.CRS))
+    standard.crs <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    suppressWarnings(sp_poly <- spTransform(sp_poly, standard.crs))
     cat('Done.')
   }
   return(sp_poly)

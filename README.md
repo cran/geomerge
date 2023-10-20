@@ -49,7 +49,7 @@ Note: Both `Point` datasets are time-stamped, which means that they can be used 
 
   - `geoEPR` (`Polygons` data): All politically relevant ethnic groups for Nigeria in 2011, as recorded in the EPR-Core 2014 dataset, available at <https://icr.ethz.ch/data/epr/geoepr/>. This dataset assigns every politically relevant ethnic group one of six settlement patterns and provides polygons describing their location.
 
-  - `gpw` (`Raster` data): Population at a gridded resolution of about 4km for Nigeria in 2010, as compiled by CIESIN, available at < https://sedac.ciesin.columbia.edu/data/collection/gpw-v4>. This dataset provides population estimates at several grid resolutions.
+  - `gpw` (`Raster` data): Population at a gridded resolution of about 4km for Nigeria in 2010, as compiled by CIESIN, available at <https://sedac.ciesin.columbia.edu/data/collection/gpw-v4>. This dataset provides population estimates at several grid resolutions.
 
   - `states` (`Polygons` data): Second-order administrative divisions (ADM2s) for Nigeria, known as Local Government Areas (equivalent of US states). The dataset is available at <http://www.arcgis.com/home/item.html?id=0e58995046b74254911c1dc0eb756fa4>. This dataset is used in the illustration for the target
     SpatialPolygonsDataFrame to which spatial data are merged. The polygons in `states` have been simplified to reduce the size of the `SpatialPolygonsDataFrame` and enable fast execution of the examples provided.

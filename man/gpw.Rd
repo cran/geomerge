@@ -3,10 +3,10 @@
 \alias{gpw}
 \title{Raster dataset to illustrate the functionality of geomerge}
 \description{
-\emph{gpw} population raster data for Nigeria for the year 2010 used as example for a \code{RasterLayer} available from http://sedac.ciesin.columbia.edu/data/collection/gpw-v4. The dataset (gpw-v4) provides population estimates at a grid resolution of about 4km.
+\emph{gpw} population raster data for Nigeria for the year 2010 used as example for a \code{SpatRaster} available from http://sedac.ciesin.columbia.edu/data/collection/gpw-v4. The dataset (gpw-v4) provides population estimates at a grid resolution of about 4km.
 }
 \usage{data(geomerge)}
-\format{A \code{RasterLayer} containing observations.}
+\format{A \code{SpatRaster} containing observations.}
 \source{http://sedac.ciesin.columbia.edu/data/collection/gpw-v4
 
 Citation:

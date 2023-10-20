@@ -1,4 +1,4 @@
-# MAIN function
+# MAIN function of package geomerge
 # - takes variable number of dataset inputs
 # - need to specify target frame (CRS defined by )
 # - various optional arguments
@@ -57,11 +57,12 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
   if (is.null(target)){
     stop('\n required input target is missing')
   }else{
-    # CHECK if target is projected, otherwise look for local CRS, abort if not given
-    standard.CRS <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-    if (standard.CRS@projargs != proj4string(target)){
+    # CHECK if target is in WGS84
+    WGS84.string <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    standard.crs <- CRS(WGS84.string)
+    if (WGS84.string != proj4string(target)){
       cat('\n NOTE: target not in global datum WGS84. Changing projection automatically but this may take a while... ')
-      target <- suppressWarnings(spTransform(target,standard.CRS))
+      target <- suppressWarnings(spTransform(target,standard.crs))
       cat(' Done.\n')
     }
   }
@@ -122,16 +123,16 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
       }
     }
     # CHECK that CRS of data is the same as target, if not transform data
-    if (standard.CRS@projargs != proj4string(inputs[[iter]])){
+    if (!identicalCRS(target,inputs[[iter]])){
       cat(paste0('\n NOTE: ',data.names[iter],' not in global datum WGS84. Changing projection but this may take a while... '))
       if (is(inputs[[iter]],'RasterLayer')){
-        inputs[[iter]] <- projectRaster(inputs[[iter]], crs=standard.CRS)
+        inputs[[iter]] <- projectRaster(inputs[[iter]], crs=standard.crs)
       }else{
-        inputs[[iter]] <- suppressWarnings(spTransform(inputs[[iter]],standard.CRS))
+        inputs[[iter]] <- suppressWarnings(spTransform(inputs[[iter]],standard.crs))
       }
       cat('Done.\n')
     }
-    if ((is(inputs[[iter]],'SpatialPolygonsDataFrame') | is(inputs[[iter]],'RasterLayer')) & extent(inputs[[iter]]) < extent(target)){
+    if ((is(inputs[[iter]],'SpatialPolygonsDataFrame') | is(inputs[[iter]],'RasterLayer')) & ext(inputs[[iter]]) < ext(target)){
       cat(paste0('\n NOTE: The extent of input ',data.names[iter],' is smaller than that of target. This might lead to NA values.\n'))
     }
   }
@@ -187,9 +188,9 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
   }
   # CHECK that population.data is projected to correct CRS
   if (is(population.data,'RasterLayer')){
-    if (standard.CRS@projargs != proj4string(population.data)){
+    if (!identicalCRS(target,population.data)){
       cat('\n NOTE: population.data not in global datum WGS84. Changing projection automatically but this may take a while...')
-      population.data <- projectRaster(population.data, crs=standard.CRS)
+      population.data <- projectRaster(population.data, crs=standard.crs)
       cat(' Done.')
     }
   }
@@ -233,7 +234,7 @@ geomerge <- function(...,target=NULL,time = NA,time.lag = TRUE, spat.lag = TRUE,
         paste.agg <- point.agg
       }
       cat(paste0('\n Dataset',iter,': ',data.name,' (',as.character(class(data)),')'))
-      outdata <- geomerge.merge(data,data.name,target,standard.CRS,outdata,wghts,time,time.lag,spat.lag,zonal.fun,assignment,population.data,paste.agg,t_unit,silent,optional.inputs)
+      outdata <- geomerge.merge(data,data.name,target,standard.crs,outdata,wghts,time,time.lag,spat.lag,zonal.fun,assignment,population.data,paste.agg,t_unit,silent,optional.inputs)
       cat(paste0(' \n Dataset ',data.name,' successfully merged to target.'))
     }
     
